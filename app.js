@@ -6,4 +6,4 @@ app.get("/", (req, res) => {
   res.send("Hello, GitHub Actions!");
 });
 
-module.exports = app
+module.exports = app;

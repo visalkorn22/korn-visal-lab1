@@ -6,13 +6,16 @@ module.exports = [
   js.configs.recommended,
   {
     languageOptions: {
-      globals: globals.node,
+      globals: {
+        ...globals.node,   
+        ...globals.mocha   
+      },
       ecmaVersion: 2022,
       sourceType: "commonjs",
     },
     rules: {
-      semi: ["error", "always"],
-      quotes: ["error", "double"],
+      semi: ["error", "always"],    
+      quotes: ["error", "double"],  
     },
   },
 ];
