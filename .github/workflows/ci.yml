@@ -9,9 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -20,7 +19,10 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
+
+      - name: Run ESLint
+        run: yarn lint
 
       - name: Run tests
-        run: npm test
+        run: yarn test
