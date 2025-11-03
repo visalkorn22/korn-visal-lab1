@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Setup Node.js and cache Yarn dependencies
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -49,28 +49,14 @@ jobs:
       - name: Install Vercel CLI
         run: yarn global add vercel
 
-      # Deploy to Vercel (Production)
+      # Deploy to Vercel
       - name: Deploy to Vercel
         if: github.ref == 'refs/heads/main' && success()
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          # Fail early if the secret is missing or invalid
           if [ -z "$VERCEL_TOKEN" ]; then
             echo "❌ ERROR: VERCEL_TOKEN is not set. Please add it in GitHub Secrets."
             exit 1
           fi
-
-          echo "✅ Setting up Vercel project config..."
-          mkdir -p .vercel
-          echo "{
-            \"orgId\": \"$VERCEL_ORG_ID\",
-            \"projectId\": \"$VERCEL_PROJECT_ID\"
-          }" > .vercel/project.json
-
-          echo "🚀 Deploying to Vercel production..."
           vercel --prod --yes --token "$VERCEL_TOKEN"
-
-          echo "✅ Deployment completed successfully!"
